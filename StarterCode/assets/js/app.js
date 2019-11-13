@@ -1,7 +1,8 @@
 // @TODO: YOUR CODE HERE!
 var svgWidth = 960;
 var svgHeight = 500;
-
+current_X = ""
+current_Y = ""
 var margin = {
   top: 20,
   right: 40,
@@ -25,6 +26,14 @@ var chartGroup = svg.append("g")
 //
 //
 //start chart off with poverty and healthcare values
+current_X = "healthcare"
+current_Y = "poverty"
+
+var div = d3.select("body").append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", 0);
+
+
 d3.csv("/assets/data/data.csv").then(function(data) {
     data.forEach(function(x) {
         x.poverty = +x.poverty;
@@ -108,6 +117,7 @@ d3.csv("/assets/data/data.csv").then(function(data) {
     .attr("transform", "rotate(-90)")
     .text("Obese %")
     .on("click", function(d) {
+      current_Y = "obese"
       chartGroup.selectAll(".yaxis").remove();
       
       chartGroup.selectAll(".poverty_value_label").attr("font-weight", "normal")
@@ -144,6 +154,7 @@ d3.csv("/assets/data/data.csv").then(function(data) {
 //POVERTY AXIS 
 chartGroup.selectAll(".poverty_value_label")
 .on("click", function(d) {
+  current_Y = "poverty"
   chartGroup.selectAll(".yaxis").remove();
   // chartGroup.SelectAll("circles").remove();
   chartGroup.selectAll(".obese_value_label").attr("font-weight", "normal");
@@ -180,6 +191,7 @@ chartGroup.selectAll(".poverty_value_label")
 //Household Income axis
 chartGroup.selectAll(".household_value_label")
 .on("click", function(d) {
+  current_X = "income"
   chartGroup.selectAll(".xaxis").remove();
 
   chartGroup.selectAll(".healthcare_value_label").attr("font-weight", "normal");
@@ -217,6 +229,7 @@ chartGroup.selectAll(".household_value_label")
 //healcare axis
 chartGroup.selectAll(".healthcare_value_label")
 .on("click", function(d) {
+  current_X = "healthcare"
   chartGroup.selectAll(".xaxis").remove();
 
   chartGroup.selectAll(".household_value_label").attr("font-weight", "normal");
@@ -252,15 +265,31 @@ chartGroup.selectAll(".healthcare_value_label")
   }); 
 
 
-  
-  tip = d3.tip().attr('class', 'd3-tip').html(console.log("hi"));
 
-  /* Invoke the tip in the context of your visualization */
-  chartGroup.call(tip);
-  
-
-  chartGroup.selectAll(".circles")
-  .on('mouseover', x => tip.show)
-  .on('mouseout', x => tip.hide);
-  
 });
+// var tip = d3.tip()
+// .attr('class', 'd3-tip')
+// .html(function(d) { return d };
+
+// /* Initialize tooltip */
+// // tip = d3.tip()
+// // .attr('class', 'd3-tip')
+// // .html(function(d) { return d; });
+
+// /* Invoke the tip in the context of your visualization */
+// chartGroup.call(tip)
+
+// svg.selectAll('.circles')
+//   .data(data)
+//   .enter()
+//   .attr("class", "d3-tip")
+//   .on('mouseover', function(x) {
+//     svg.selectAll(".circles")
+//     .append('div')
+//     .html('test')
+//   };
+
+
+
+
+
