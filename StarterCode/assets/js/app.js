@@ -105,7 +105,25 @@ d3.csv("/assets/data/data.csv").then(function(data) {
     .attr("y", height + 60)
     .text("Household Income")
     .attr("class", "household_value_label");
+
+    //tooltip
+    var tool_tip = d3.tip()
+    .attr("class", "d3-tip")
+    .offset([-8, 0])
+    .html(function(d) { return "test: " + d; });
+  svg.call(tool_tip);
   
+  // Now render the SVG scene, connecting the tool tip to each circle.
+  var circles = svg.selectAll("circle").data(data);
+  circles.enter().append("circle")
+    .attr("r", function(d) { return d; })
+    .attr("cx", function(d, i) { return 50 + 50*i; })
+    .attr("cy", function(d, i) { return 50 + 50*i; })
+    .style("fill", "red")
+    .style("stroke", "black")
+    .on('mouseover', tool_tip.show)
+    .on('mouseout', tool_tip.hide);
+
 
 //
 //
@@ -264,32 +282,24 @@ chartGroup.selectAll(".healthcare_value_label")
 
   }); 
 
+  // tip = d3.tip().attr('class', 'd3-tip').html(function(d) { return d; });
+
+  // /* Invoke the tip in the context of your visualization */
+  // svg.call(tip)
+  
+  // svg.selectAll('.circles')
+  //   .data(data)
+  //   .enter()
+  //   .append('div')
+  //   .attr('width', "100")
+  //   .attr('height', "100")
+  //   // .attr('y', function(x, y) {Document.elementFromPoint(x, y).cy})
+  //   // .attr('x', function(x, y) {Document.elementFromPoint(x, y).cx})
+  //   .on('mouseover', tip.show)
+  //   .on('mouseout', tip.hide)
 
 
 });
-// var tip = d3.tip()
-// .attr('class', 'd3-tip')
-// .html(function(d) { return d };
-
-// /* Initialize tooltip */
-// // tip = d3.tip()
-// // .attr('class', 'd3-tip')
-// // .html(function(d) { return d; });
-
-// /* Invoke the tip in the context of your visualization */
-// chartGroup.call(tip)
-
-// svg.selectAll('.circles')
-//   .data(data)
-//   .enter()
-//   .attr("class", "d3-tip")
-//   .on('mouseover', function(x) {
-//     svg.selectAll(".circles")
-//     .append('div')
-//     .html('test')
-//   };
-
-
 
 
 
